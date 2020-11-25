@@ -27,7 +27,29 @@ class MetodosOrdenamiento{
 		}
 	}
 		
-	
+	public int[] quicksort(int[] array, int izq, int der) {
+		int pivote = array[izq];
+		int i = izq, j = der;
+		int aux;
+		while(i < j) {
+			while(array[i] <= pivote && i < j) i++;
+			while(array[j] > pivote) j--;
+			if(i < j) {
+				aux = array[i];
+				array[i] = array[j];
+				array[j] = aux;
+			}
+		}
+		array[izq] = array[j];
+		array[j] = pivote;
+		if(izq < j - 1) {
+			quicksort(array, izq, j - 1);
+		}
+		if(j + 1 < der) {
+			quicksort(array, j + 1, der);
+		}
+		return array;
+	}
 		
 }
 public class PruebaMetodosOrdenamiento {
@@ -43,6 +65,7 @@ public class PruebaMetodosOrdenamiento {
 		System.out.println("1.- Ordenación metodo de la burbuja");
 		System.out.println("2.- Ordenación por inserción");
 		System.out.println("3.- Ordenación por selección");
+		System.out.println("4.- Ordenación por Quicksort");
 		
 		System.out.println("Elija una opción: ");
 		op1 = entrada.nextInt();
@@ -57,6 +80,9 @@ public class PruebaMetodosOrdenamiento {
 					mo.ordenarSeleccion(numeros);
 					System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
 			break;
+			case 4: System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
+					mo.quicksort(numeros, 0, numeros.length - 1);
+					System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
 			}
 		
 
