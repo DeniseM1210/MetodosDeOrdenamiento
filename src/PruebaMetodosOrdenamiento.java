@@ -50,6 +50,28 @@ class MetodosOrdenamiento{
 		}
 		return array;
 	}
+	
+	public void ordenShellsort(int[] numeros) {
+		int intervalo = numeros.length / 2;
+		
+		while(intervalo > 0) {
+			for(int i = intervalo; i < numeros.length; i++) {
+				int j = i - intervalo;
+				while(j >= 0) {
+					int k = j + intervalo;
+					if(numeros[j] <= numeros[k]) {
+						j = -1;
+					}else {
+						int aux = numeros[j];
+						numeros[j] = numeros[k];
+						numeros[k] = aux;
+						j -= intervalo;
+					}
+				}
+			}
+			intervalo = intervalo/2;
+		}
+	}
 		
 }
 public class PruebaMetodosOrdenamiento {
@@ -59,31 +81,39 @@ public class PruebaMetodosOrdenamiento {
 		int[] numeros = {7, 11, 28, 4, 22, 21, 1, 4, 2, 2, 48};
 		
 		MetodosOrdenamiento mo = new MetodosOrdenamiento();
-		int op1;
-		
-		System.out.println("--- Menú ---");
-		System.out.println("1.- Ordenación metodo de la burbuja");
-		System.out.println("2.- Ordenación por inserción");
-		System.out.println("3.- Ordenación por selección");
-		System.out.println("4.- Ordenación por Quicksort");
-		
-		System.out.println("Elija una opción: ");
-		op1 = entrada.nextInt();
-			switch(op1) {
-			case 1: 
+		int op1 = 0;
+		do {
+			System.out.println("--- Menú ---");
+			System.out.println("1.- Ordenación metodo de la burbuja");
+			System.out.println("2.- Ordenación por inserción");
+			System.out.println("3.- Ordenación por selección");
+			System.out.println("4.- Ordenación por Quicksort");
+			System.out.println("5.- Ordenación por ShellSort");
+			
+			System.out.println("Elija una opción: ");
+			op1 = entrada.nextInt();
+				switch(op1) {
+				case 1: 
+					break;
+				case 2: System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
+						mo.ordenarInsercion(numeros);
+						System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
 				break;
-			case 2: System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
-					mo.ordenarInsercion(numeros);
-					System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
-			break;
-			case 3: System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
-					mo.ordenarSeleccion(numeros);
-					System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
-			break;
-			case 4: System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
-					mo.quicksort(numeros, 0, numeros.length - 1);
-					System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
-			}
+				case 3: System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
+						mo.ordenarSeleccion(numeros);
+						System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
+				break;
+				case 4: System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
+						mo.quicksort(numeros, 0, numeros.length - 1);
+						System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
+				break;
+				case 5: System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
+						mo.ordenShellsort(numeros);
+						System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
+				break;
+				}
+		} while (op1 != 6);
+		
 		
 
 	}
