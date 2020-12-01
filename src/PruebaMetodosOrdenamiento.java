@@ -138,6 +138,56 @@ class MetodosOrdenamiento{
 		return arrayOrdenado;
 	}
 	
+	public int[] ordenamientoMezcla(int[] numeros) {
+		int i, j, k;
+		
+		if(numeros.length > 1) {
+			int numElementosIzq = numeros.length / 2;
+			int numElementosDer = numeros.length - numElementosIzq;
+			
+			int numIzq[] = new int[numElementosIzq];
+			int numDer[] = new int[numElementosDer];
+			
+			for(i = 0; i < numElementosIzq; i++) {
+				numIzq[i] = numeros[i];
+			}
+			
+			for(i = numElementosIzq; i < numElementosIzq + numElementosDer; i++) {
+				numDer[i - numElementosIzq] = numeros[i]; 
+			}
+			//Se aplica la recursividad
+			numIzq = ordenamientoMezcla(numIzq);
+			numDer = ordenamientoMezcla(numDer);
+			i = j = k = 0;
+			
+			while(numIzq.length != j && numDer.length != k) {
+				if(numIzq[j] < numDer[k]) {
+					numeros[i] = numIzq[j];
+					i++;
+					j++;
+				}else {
+					numeros[i] = numDer[k];
+					i++;
+					k++;
+				}
+			}
+			
+			while(numIzq.length != j) {
+				numeros[i] = numIzq[j];
+				i++;
+				j++;
+			}
+			
+			while(numDer.length != k) {
+				numeros[i] = numDer[k];
+				i++;
+				k++;
+			}
+		}
+		
+		return numeros;
+	}
+	
 
 }
 public class PruebaMetodosOrdenamiento {
@@ -170,7 +220,8 @@ public class PruebaMetodosOrdenamiento {
 			System.out.println("4.- Ordenación por ShellSort");
 			System.out.println("5.- Ordenación por Radix");
 			System.out.println("6.- Ordenacion por Intercalacion");
-			System.out.println("7.- Salir");
+			System.out.println("7.- Ordenación por Mezcla");
+			System.out.println("8.- Salir");
 			
 			System.out.println("Elija una opción: ");
 			op1 = entrada.nextInt();
@@ -227,8 +278,15 @@ public class PruebaMetodosOrdenamiento {
 						 int segundo[] = {30, 300};
 						 System.out.println("ordenado: " + Arrays.toString(mo.ordenar(primero, segundo)));
 				break;
+				case 7: int numerosM[] = {5, 10, 7, 4, 1, 8, 2, 3, 6, 9};
+						System.out.println("Desordenado: " + Arrays.toString(numerosM));
+						int numerosM2[];
+						numerosM2 = mo.ordenamientoMezcla(numerosM);
+						System.out.println("Ordenado: " + Arrays.toString(numerosM2));
+					
+				break;
 				}
-		} while (op1 != 6);
+		} while (op1 != 8);
 	}
 
 }
