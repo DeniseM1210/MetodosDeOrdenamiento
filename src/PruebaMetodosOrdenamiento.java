@@ -2,6 +2,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 class MetodosOrdenamiento{
+	int[] contador = new int[3];
+	
 	public void ordenarInsercion(int [] numeros) {
 		int aux;
 		
@@ -105,15 +107,61 @@ class MetodosOrdenamiento{
                 numeros[j++] = np[l][0];
          }//for
   }//metodo
+	
+	public int[] ordenar(int primero[], int segundo[]) {
+		int arrayOrdenado[] = new int[primero.length + segundo.length];
+		
+		int i = 0, j = 0, k = 0;
+		
+		while(i < primero.length && j < segundo.length) {
+			if(primero[i] < segundo[i]) {
+				k++;
+				i++;
+			}else {
+				arrayOrdenado[k] = segundo[j];
+				j++;
+				k++;
+			}
+		}
+		while(j < segundo.length) {
+			arrayOrdenado[k] = segundo[j];
+			j++;
+			k++;
+		}
+		
+		while(i < primero.length) {
+			arrayOrdenado[k] = primero[i];
+			i++;
+			k++;
+		}
+		
+		return arrayOrdenado;
+	}
+	
+
 }
 public class PruebaMetodosOrdenamiento {
 
 	public static void main(String[] args) {
 		Scanner entrada = new Scanner(System.in);
 		int[] numeros = {7, 11, 28, 4, 22, 21, 1, 4, 2, 2, 48};
-		
+		long tInicio, tFin;
 		MetodosOrdenamiento mo = new MetodosOrdenamiento();
 		int op1 = 0;
+		int op2 = 0;
+		
+		int[] milElementos = new int[1000];
+		for(int i = 0; i < milElementos.length; i++) {
+			milElementos[i] = (int)(Math.random() * 1000 + 1);
+		}
+		int[] diezMilElementos = new int[10000];
+		for(int i = 0; i < diezMilElementos.length; i++) {
+			diezMilElementos[i] = (int)(Math.random() * 10000 + 1);
+		}
+		int[] cienMilElementos = new int[100000];
+		for(int i = 0; i < cienMilElementos.length; i++) {
+			cienMilElementos[i] = (int)(Math.random() * 100000 + 1);
+		}
 		do {
 			System.out.println("--- Menú ---");
 			System.out.println("1.- Ordenación por inserción");
@@ -121,15 +169,39 @@ public class PruebaMetodosOrdenamiento {
 			System.out.println("3.- Ordenación por Quicksort");
 			System.out.println("4.- Ordenación por ShellSort");
 			System.out.println("5.- Ordenación por Radix");
-			System.out.println("6.- Salir");
+			System.out.println("6.- Ordenacion por Intercalacion");
+			System.out.println("7.- Salir");
 			
 			System.out.println("Elija una opción: ");
 			op1 = entrada.nextInt();
 				switch(op1) {
-				case 1: int[] numerosI = {7, 11, 28, 4, 22, 21, 1, 4, 2, 2, 48};
-						System.out.println("Numeros desordenados: " + Arrays.toString(numerosI));
-						mo.ordenarInsercion(numerosI);
-						System.out.println("Numeros ordenados: " + Arrays.toString(numerosI));
+				
+				case 1: do {
+						System.out.println("1.- Ordenar numeros ya ingresados");
+				        System.out.println("2.- Ordenar 1000 elementos");
+				        System.out.println("3.- Ordenar 10000 elementos");
+				        op2 = entrada.nextInt();
+				        switch(op2) {
+				        case 1: int[] numerosI = {7, 11, 28, 4, 22, 21, 1, 4, 2, 2, 48};
+								System.out.println("Numeros desordenados: " + Arrays.toString(numerosI));
+								mo.ordenarInsercion(numerosI);
+								System.out.println("Numeros ordenados: " + Arrays.toString(numerosI));
+						break;
+				        case 2: tFin = tInicio = 0;
+				        		System.out.println("--- Ordenar 1000 elementos ---");
+				        		tInicio = System.nanoTime();
+				        		mo.ordenarInsercion(milElementos);
+				        		tFin = System.nanoTime();
+				        		System.out.println("Tardó en ordenar: " + (tFin - tInicio));
+				        break;
+				        case 3: tFin = tInicio = 0;
+				        		System.out.println("--- Ordenar 10000 elementos ---");
+				        		tInicio = System.nanoTime();
+				        		mo.ordenarInsercion(diezMilElementos);
+				        		tFin = System.nanoTime();
+				        		System.out.println("Tardó en ordenar: " + (tFin - tInicio));
+				        }
+				}while(op2 != 4);
 				break;
 				case 2: int[] numerosS = {7, 11, 28, 4, 22, 21, 1, 4, 2, 2, 48};
 					System.out.println("Numeros desordenados: " + Arrays.toString(numerosS));
@@ -151,7 +223,10 @@ public class PruebaMetodosOrdenamiento {
 						mo.ordenRadix(numerosR);
 						System.out.println("Numeros ordenados: " + Arrays.toString(numerosR));
 				break;
-				case 6: break;
+				case 6:  int primero[] = {1, 2, 10, 37, 50};
+						 int segundo[] = {30, 300};
+						 System.out.println("ordenado: " + Arrays.toString(mo.ordenar(primero, segundo)));
+				break;
 				}
 		} while (op1 != 6);
 	}
