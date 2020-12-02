@@ -188,6 +188,132 @@ class MetodosOrdenamiento{
 		return numeros;
 	}
 	
+	public int[] ordenamientoMezclaDirecta(int[] numeros) {
+		int i, j, k;
+		
+		if(numeros.length > 1) {
+			int numElementosIzq = numeros.length / 2;
+			int numElementosDer = numeros.length - numElementosIzq;
+			
+			int numIzq[] = new int[numElementosIzq];
+			int numDer[] = new int[numElementosDer];
+			
+			for(i = 0; i < numElementosIzq; i++) {
+				numIzq[i] = numeros[i];
+			}
+			
+			for(i = numElementosIzq; i < numElementosIzq + numElementosDer; i++) {
+				numDer[i - numElementosIzq] = numeros[i]; 
+			}
+			//Se aplica la recursividad
+			numIzq = ordenamientoMezcla(numIzq);
+			numDer = ordenamientoMezcla(numDer);
+			i = j = k = 0;
+			
+			while(numIzq.length != j && numDer.length != k) {
+				if(numIzq[j] < numDer[k]) {
+					numeros[i] = numIzq[j];
+					i++;
+					j++;
+				}else {
+					numeros[i] = numDer[k];
+					i++;
+					k++;
+				}
+			}
+			
+			while(numIzq.length != j) {
+				numeros[i] = numIzq[j];
+				i++;
+				j++;
+			}
+			
+			while(numDer.length != k) {
+				numeros[i] = numDer[k];
+				i++;
+				k++;
+			}
+		}
+		
+		return numeros;
+	}
+	
+	public void ordenamientoMezclaDirecta2(int[] numeros) {
+		int i, j, k;
+		
+		if(numeros.length > 1) {
+			int numElementosIzq = numeros.length / 2;
+			int numElementosDer = numeros.length - numElementosIzq;
+			
+			int numIzq[] = new int[numElementosIzq];
+			int numDer[] = new int[numElementosDer];
+			
+			for(i = 0; i < numElementosIzq; i++) {
+				numIzq[i] = numeros[i];
+			}
+			
+			for(i = numElementosIzq; i < numElementosIzq + numElementosDer; i++) {
+				numDer[i - numElementosIzq] = numeros[i]; 
+			}
+			//Se aplica la recursividad
+			numIzq = ordenamientoMezcla(numIzq);
+			numDer = ordenamientoMezcla(numDer);
+			i = j = k = 0;
+			
+			while(numIzq.length != j && numDer.length != k) {
+				if(numIzq[j] < numDer[k]) {
+					numeros[i] = numIzq[j];
+					i++;
+					j++;
+				}else {
+					numeros[i] = numDer[k];
+					i++;
+					k++;
+				}
+			}
+			
+			while(numIzq.length != j) {
+				numeros[i] = numIzq[j];
+				i++;
+				j++;
+			}
+			
+			while(numDer.length != k) {
+				numeros[i] = numDer[k];
+				i++;
+				k++;
+			}
+		}
+	}
+	
+	public void mezclaNatural(int[] numeros) {
+		int izquierda = 0;
+		int izq = 0;
+		int derecha = numeros.length - 1;
+		int der = derecha;
+		boolean ordenado = false;
+		
+		do {
+			izquierda = 0;
+			ordenado = true;
+			while(izquierda < derecha) {
+				izq = izquierda;
+				while(izq < derecha && numeros[izq] <= numeros[izq+1]) {
+					izq++;
+				}
+				der = izq + 1;
+				while(der == derecha - 1 || der < derecha && numeros[der] <= numeros[der + 1]) {
+					der++;
+				}
+				if(der <= derecha) {
+					ordenamientoMezclaDirecta2(numeros);
+					
+					ordenado = false;
+				}
+				izquierda = izq;
+			}
+		}while(!ordenado);
+	}
 
 }
 public class PruebaMetodosOrdenamiento {
@@ -283,6 +409,12 @@ public class PruebaMetodosOrdenamiento {
 						int numerosM2[];
 						numerosM2 = mo.ordenamientoMezcla(numerosM);
 						System.out.println("Ordenado: " + Arrays.toString(numerosM2));
+					
+				break;
+				case 8: int[] numerosMN = {6, 12, 19, 1, 23, 57, 40, 8};
+						System.out.println("Desordenados: " + Arrays.toString(numerosMN));
+						mo.mezclaNatural(numerosMN);
+						System.out.println("Ordenado: " + Arrays.toString(numerosMN));
 					
 				break;
 				}
